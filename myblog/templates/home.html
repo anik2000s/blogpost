@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+<h1 style="font-family: arial;"><b>POSTS</b></h1>
+<br/>
+
+<ul>
+{% for post in object_list %}
+<div class="card">
+    <div class="card-header">
+        <h3><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h3>
+    </div>
+    <div class="card-body">
+        <footer class="blockquote-footer"><cite title="Source Title">{{ post.author.first_name }} {{ post.author.last_name }}</cite></footer>
+        <div class="mb-1 text-muted"><small>{{ post.post_date }}</small></div>
+        
+        <small>
+
+        {% if user.id == post.author.id and user.id != 1 %}
+
+            <a href="{% url 'edit_post' post.pk %}">(Edit)</a>
+
+            <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+            <br/>
+
+        {% elif user.id == 1 %}
+
+            <a href="{% url 'edit_post' post.pk %}">(Edit)</a>
+
+            <a href="{% url 'delete_post' post.pk %}">(Delete)</a>
+            <br/>
+
+        {% endif %}
+
+    </small><br/>
+
+    {% if post.header_image %}
+
+        <img src="{{ post.header_image.url }}">
+        <br/><br/>
+
+    {% endif %}
+    
+    {{ post.body|slice:":150" }}
+    
+    </div>
+</div>
+<br/>
+
+{% endfor %}
+</ul>
+
+{% else %}
+<br/>
+    <img src="static/image/blogpost1-01.png" width="100%" height="100%">
+
+{% endif %}
+
+{% endblock %}

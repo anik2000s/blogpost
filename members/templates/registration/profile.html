@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<h1>Profile</h1>
+<hr>
+<div class="alert alert-dark" role="alert">
+    Username : {{ user.username }}
+</div>
+<div class="alert alert-dark" role="alert">
+    First Name : {{ user.first_name }}
+</div>
+<div class="alert alert-dark" role="alert">
+    Last Name : {{ user.last_name }}
+</div>
+<div class="alert alert-dark" role="alert">
+    Email : {{ user.email }}
+</div>
+
+<br/>
+
+<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+{% else %}
+
+You're not allowed here.
+
+{% endif %}
+
+{% endblock %}
